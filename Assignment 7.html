@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animation with LocalStorage</title>
+    <style>
+        #myButton {
+            background-color: #3498db;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+
+        .animate {
+            animation: pulse 1s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <input type="color" id="colorPicker">
+    <button id="myButton">Click Me</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedColor = localStorage.getItem('buttonColor');
+            const button = document.getElementById('myButton');
+            const colorPicker = document.getElementById('colorPicker');
+
+            if (storedColor) {
+                button.style.backgroundColor = storedColor;
+                colorPicker.value = storedColor;
+            }
+
+            colorPicker.addEventListener('change', function() {
+                const selectedColor = this.value;
+                button.style.backgroundColor = selectedColor;
+                localStorage.setItem('buttonColor', selectedColor);
+            });
+
+            button.addEventListener('click', function() {
+                this.classList.add('animate');
+                setTimeout(() => {
+                    this.classList.remove('animate');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
